@@ -4,23 +4,40 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-    float MovementSpeed = 3f;
-    // Start is called before the first frame update
+    float damping = 0.02f;                   // ResistanceOfMedium
+    float acceleration = 0.02f;              // Having lower a than damping will stop movement, also if a wont be divisble by damping value, it will cause a bug likely
+    float MaxSpeed = 5f;
+    Vector2 Velocity = new Vector2(0f,0f);  //first vertical, second horizontal
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKey(KeyCode.W))
-            transform.position = transform.position + new Vector3(0, MovementSpeed * Time.deltaTime,0);
+            if (Velocity[0] < MaxSpeed) Velocity[0] += 0.01f;      //accelerating
         if (Input.GetKey(KeyCode.S))
-            transform.position = transform.position + new Vector3(0, -MovementSpeed * Time.deltaTime, 0);
+            if (Velocity[0] < MaxSpeed) Velocity[0] -= 0.01f;      //accelerating
         if (Input.GetKey(KeyCode.A))
-            transform.position = transform.position + new Vector3(-MovementSpeed * Time.deltaTime,0, 0);
+            if (Velocity[1] < MaxSpeed) Velocity[1] -= 0.01f;      //accelerating
         if (Input.GetKey(KeyCode.D))
-            transform.position = transform.position + new Vector3(MovementSpeed * Time.deltaTime,0, 0);
+            if (Velocity[1] < MaxSpeed) Velocity[1] += 0.01f;      //accelerating
+
+        if (!(Input.GetKey(KeyCode.W) | Input.GetKey(KeyCode.A) | Input.GetKey(KeyCode.S) | Input.GetKey(KeyCode.D))){
+            if (Velocity[0] != 0){              //decelerating
+                if (Velocity[0] > 0)        Velocity[0] -= damping;
+                else                        Velocity[0] += damping;
+            }
+            if (Velocity[1] != 0){             //decelerating
+                if (Velocity[1] > 0)        Velocity[1] -= damping;
+                else                        Velocity[1] += damping;
+            }
+        }
+
+                                                //moving
+        transform.position = transform.position + new Vector3(0, Velocity[0] * Time.deltaTime, 0);
+        transform.position = transform.position + new Vector3(Velocity[1] * Time.deltaTime, 0, 0);
+
     }
 }
