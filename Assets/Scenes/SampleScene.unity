@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smoothSpeed: 0.005
-  player: {fileID: 676220461}
+  player: {fileID: 676220459}
 --- !u!1 &529608650
 GameObject:
   m_ObjectHideFlags: 0
@@ -1575,6 +1575,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0372872386cf0c44a8d22edd75a7835f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Velocity: {x: 0, y: 0}
+  moving: 0
 --- !u!4 &676220461
 Transform:
   m_ObjectHideFlags: 0
