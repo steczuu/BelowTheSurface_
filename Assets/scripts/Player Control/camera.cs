@@ -15,6 +15,7 @@ public class camera : MonoBehaviour
 
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, player.transform.position + offset, smoothSpeed); //smoothly follows the player with offset of -10 (as it was by default) in z plane
+        //smoothly follows the player with offset of -10 (as it was by default) in z plane
+        transform.position = Vector3.Lerp(transform.position, player.transform.position + offset, smoothSpeed);
     }
 }

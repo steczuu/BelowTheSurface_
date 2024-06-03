@@ -32,18 +32,14 @@ public class swimmingonsurface : MonoBehaviour
         
 
         if (!moving){
-            if (Velocity[0] >= -damping && Velocity[0] <= damping) { Velocity[0] = 0; } //truncation handler
-            if (Velocity[1] >= -damping && Velocity[1] <= damping) { Velocity[1] = 0; } //truncation handler
+            if (Velocity[0] >= -damping && Velocity[0] <= damping)  Velocity[0] = 0;  //truncation handler
+            if (Velocity[1] >= -damping && Velocity[1] <= damping)  Velocity[1] = 0; //truncation handler
             if (Velocity[0] != 0) {              //decelerating
                 if (Velocity[0] > 0) Velocity[0] -= damping;
                 else Velocity[0] += damping;
             }
-            //if (Velocity[1] != 0f) {             //decelerating
-            //    if (Velocity[1] > 0)        Velocity[1] -= damping;
-            //    else                        Velocity[1] += damping;
-            //}
         }
-                                                                    //moving
+         //moving
         transform.position = transform.position + new Vector3(Velocity[1] * Time.deltaTime, Velocity[0] * Time.deltaTime, 0);
     }
 }

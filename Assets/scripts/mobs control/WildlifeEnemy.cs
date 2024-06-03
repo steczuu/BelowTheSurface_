@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class WildlifeEnemy : MonoBehaviour
 {
-
-    /*
-    INFO:
-    DO NOT USE
-    THIS SCRIPT IS OLD AND NEEDS REFACTORING
-    */
-
     public float radius, stoppingDist;
     public static float damage = 10f;
-    private float speed = 4f;
-    public GameObject player,normalForm, attackForm,attackArea;
+    private float speed = 4f, BiteRange = 3f;
+    public GameObject player,normalForm, attackForm,attackArea,Jaw;
+    private bool hasAttacked = false;
+    private bool canBite = true;
 
     private void Start() {
         normalForm.SetActive(true);
@@ -46,8 +41,16 @@ public class WildlifeEnemy : MonoBehaviour
                     transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
                 }
 
-                if(distanceToPlayer == stoppingDist){
-                    Retreat();
+                if(distanceToPlayer == stoppingDist && canBite){
+                    RaycastHit2D raycastHit2D = Physics2D.Raycast(Jaw.transform.position, Jaw.transform.forward, BiteRange);
+
+                    if(raycastHit2D.collider != null){
+                        PlayerManager playerManager = raycastHit2D.transform.GetComponent<PlayerManager>();
+
+                        if(playerManager != null){
+                            playerManager.UpdateHealth(damage);
+                        } 
+                    }
                 }
                 /*else 
                 {
@@ -62,8 +65,14 @@ public class WildlifeEnemy : MonoBehaviour
         }
     }
 
-    void Retreat(){
+    IEnumerator BiteCooldown(){
+        canBite = false;
+        yield return new WaitForSeconds(0.5f);
+        canBite = true;
+    }
+
+    /*void Retreat(){
         Vector2 retreat = transform.position - player.transform.position;
         retreat.Normalize();
-    }
+    }*/
 }
